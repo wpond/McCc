@@ -26,14 +26,14 @@ end
 turtle.turnLeft = function()
 
 	dir = (dir - 1) % 4;
-	turtle_cmd.base_tl()
+	turtle_cmds.base_tl()
 	
 end
 
 turtle.turnRight = function()
 
 	dir = (dir + 1) % 4;
-	turtle_cmd.base_tr()
+	turtle_cmds.base_tr()
 	
 end
 
