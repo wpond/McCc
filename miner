@@ -145,6 +145,17 @@ print = function(msg)
 	rednet.broadcast(msg)
 end
 
+turtle.back()
+turtle.back()
+turtle.back()
+turtle.turnRight()
+turtle.back()
+turtle.back()
+
+returnHome()
+
+return
+
 while loc.y > 11 do
 	if not turtle.down() then
 		turtle.digDown()
