@@ -100,32 +100,52 @@ function face(target)
 	end
 end
 
+function goto(x,z)
+	
+	if loc.x < x then
+		face(1)
+		while loc.x < x do
+			if not turtle.forward() then
+				turtle.dig()
+			end
+			printLocation()
+		end
+	elseif loc.x > x then
+		face(3)
+		while loc.x > x do
+			if not turtle.forward() then
+				turtle.dig()
+			end
+			printLocation()
+		end
+	end
+	
+	if loc.z > z then
+		face(0)
+		while loc.z > z do
+			if not turtle.forward() then
+				turtle.dig()
+			end
+			printLocation()
+		end
+	elseif loc.z < z then
+		face(2)
+		while loc.z < z do
+			if not turtle.forward() then
+				turtle.dig()
+			end
+			printLocation()
+		end
+	end
+	
+end
+
 function returnHome()
 	
 	print("return home")
 	
-	face(1)
-	while loc.x < home.x do
-		turtle.forward()
-		printLocation()
-	end
+	goto(home.x,home.z)
 	
-	while loc.x > home.x do
-		turtle.back()
-		printLocation()
-	end
-	
-	face(0)
-	while loc.z > home.z do
-		turtle.forward()
-		printLocation()
-	end
-	
-	while loc.z < home.z do
-		turtle.back()
-		printLocation()
-	end
-
 	while loc.y < home.y do
 		turtle.up()
 		printLocation()
@@ -176,5 +196,7 @@ for j = 1,3 do
 end
 
 returnHome()
+
+face(3)
 
 print("done")
