@@ -95,12 +95,15 @@ print = function(msg)
 	rednet.broadcast(msg)
 end
 
-for i = 1,4 do
-	printLocation()
-	turtle.turnLeft()
+c = 0
+
+while loc.y > 11 do
+	turtle.down()
+	c = c + 1
 end
 
-for i = 1,4 do
-	printLocation()
-	turtle.turnRight()
+while c > 0 do
+	turtle.up()
+	c = c - 1
 end
+
