@@ -24,20 +24,18 @@ function printLocation()
 end
 
 turtle.turnLeft = function()
-{
-	
+
 	dir = (dir - 1) % 4;
 	turtle_cmd.base_tl()
 	
-}
+end
 
 turtle.turnRight = function()
-{
-	
+
 	dir = (dir + 1) % 4;
 	turtle_cmd.base_tr()
 	
-}
+end
 
 for i = 1,4 do
 	printLocation()
