@@ -10,12 +10,12 @@ headings = {
 }
 
 turtle_cmds =  { 
-	base_tl = turtle.turnLeft(),
-	base_tr = turtle.turnRight(),
-	base_tf = turtle.foward(),
-	base_tb = turtle.back(),
-	base_tu = turtle.up(),
-	base_td = turtle.down()
+	base_tl = turtle.turnLeft,
+	base_tr = turtle.turnRight,
+	base_tf = turtle.foward,
+	base_tb = turtle.back,
+	base_tu = turtle.up,
+	base_td = turtle.down
 }
 
 function printLocation()
