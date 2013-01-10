@@ -146,6 +146,8 @@ for i = 0,3 do
 	printLocation()
 end
 
+--[[
+
 turtle.back()
 turtle.back()
 turtle.back()
@@ -156,7 +158,7 @@ turtle.back()
 returnHome()
 
 return
---[[
+
 while loc.y > 11 do
 	if not turtle.down() then
 		turtle.digDown()
