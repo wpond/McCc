@@ -44,5 +44,5 @@ end
 
 for i = 1,4 do
 	printLocation()
-	turtle.turnReft()
+	turtle.turnRight()
 end
