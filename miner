@@ -94,6 +94,49 @@ function dig()
 	turtle.digUp()
 end
 
+function face(direction)
+	while not dir == direction do
+		turtle.turnLeft()
+	end
+end
+
+function returnHome()
+	
+	print("return home")
+	
+	face(1)
+	if loc.x < home.x then
+		while loc.x < home.x do
+			turtle.forward()
+			printLocation()
+		end
+	elseif loc.x > home.x then
+		while loc.x > home.x do
+			turtle.back()
+			printLocation()
+		end
+	end
+	
+	face(0)
+	if loc.z > home.z then
+		while loc.z > home.z do
+			turtle.forward()
+			printLocation()
+		end
+	elseif loc.z < home.z then
+		while loc.z < home.z do
+			turtle.back()
+			printLocation()
+		end
+	end
+
+	while loc.y < home.y do
+		turtle.up()
+		printLocation()
+	end
+	
+end
+
 rednet.close("right")
 rednet.open("right")
 
@@ -109,6 +152,8 @@ while loc.y > 11 do
 	end
 	printLocation()
 end
+
+print("At level 11")
 
 for j = 1,3 do
 	for i = 1,6 do
@@ -128,19 +173,12 @@ for j = 1,3 do
 	end
 	turtle.turnRight()
 	dig()
+	turtle.forward()
 	turtle.turnRight()
-	turtle.forward()
 	printLocation()
+	print("row "..j.." done")
 end
 
-turtle.turnRight()
-for i = 1,7 do
-	turtle.forward()
-	printLocation()
-end
+returnHome()
 
-while loc.y < home.y do
-	turtle.up()
-	printLocation()
-end
-
+print("done")
