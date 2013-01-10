@@ -98,7 +98,10 @@ end
 c = 0
 
 while loc.y > 30 do
-	turtle.down()
+	if not turtle.down() then
+		turtle.digDown()
+		turtle.down()
+	end
 	c = c + 1
 	printLocation()
 end
