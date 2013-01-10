@@ -1,6 +1,6 @@
 
 home = {x=-1252,y=72,z=926}
-loc = home
+loc = {x=-1252,y=72,z=926}
 dir = 3
 
 headings = {
@@ -105,29 +105,25 @@ function returnHome()
 	print("return home")
 	
 	face(1)
-	if loc.x < home.x then
-		while loc.x < home.x do
-			turtle.forward()
-			printLocation()
-		end
-	elseif loc.x > home.x then
-		while loc.x > home.x do
-			turtle.back()
-			printLocation()
-		end
+	while loc.x < home.x do
+		turtle.forward()
+		printLocation()
+	end
+	
+	while loc.x > home.x do
+		turtle.back()
+		printLocation()
 	end
 	
 	face(0)
-	if loc.z > home.z then
-		while loc.z > home.z do
-			turtle.forward()
-			printLocation()
-		end
-	elseif loc.z < home.z then
-		while loc.z < home.z do
-			turtle.back()
-			printLocation()
-		end
+	while loc.z > home.z do
+		turtle.forward()
+		printLocation()
+	end
+	
+	while loc.z < home.z do
+		turtle.back()
+		printLocation()
 	end
 
 	while loc.y < home.y do
