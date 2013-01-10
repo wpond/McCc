@@ -9,6 +9,9 @@ headings = {
 	"west"
 }
 
+xDiff = { 0, 1, 0, -1 }
+zDiff = { -1, 0, 1, 0 }
+
 turtle_cmds =  { 
 	base_tl = turtle.turnLeft,
 	base_tr = turtle.turnRight,
@@ -17,6 +20,7 @@ turtle_cmds =  {
 	base_tu = turtle.up,
 	base_td = turtle.down
 }
+base_print = print
 
 function printLocation()
 	print("(x = " .. loc.x .. ", y = " .. loc.y .. ", z = " .. loc.z .. ")")
@@ -35,6 +39,60 @@ turtle.turnRight = function()
 	dir = (dir + 1) % 4;
 	turtle_cmds.base_tr()
 	
+end
+
+turtle.up = function()
+
+	if turtle.up() then
+		loc.y = loc.y + 1
+		return true
+	end
+	
+	return false
+
+end
+
+turtle.down = function()
+
+	if turtle.down() then
+		loc.y = loc.y - 1
+		return true
+	end
+	
+	return false
+
+end
+
+turtle.forward = function()
+	
+	if turtle.foward() then
+		loc.x = loc.x + xDiff[dir+1]
+		loc.z = loc.z + zDiff[dir+1]
+		return true
+	end
+	
+	return false
+	
+end
+
+turtle.back = function()
+	
+	if turtle.back() then
+		loc.x = loc.x - xDiff[dir+1]
+		loc.z = loc.z - zDiff[dir+1]
+		return true
+	end
+	
+	return false
+	
+end
+
+rednet.close("right")
+rednet.open("right")
+
+print = function(msg)
+	print (msg)
+	rednet.broadcast(msg)
 end
 
 for i = 1,4 do
