@@ -94,8 +94,8 @@ function dig()
 	turtle.digUp()
 end
 
-function face(direction)
-	while not dir == direction do
+function face(target)
+	while dir ~= target do
 		turtle.turnLeft()
 	end
 end
