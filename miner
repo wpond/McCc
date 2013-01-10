@@ -114,22 +114,29 @@ for j = 1,3 do
 	for i = 1,6 do
 		dig()
 		turtle.forward()
+		printLocation()
 	end
 	turtle.turnLeft()
 	dig()
+	turtle.forward()
+	printLocation()
 	turtle.turnLeft()
 	for i = 1,3 do
 		dig()
 		turtle.forward()
+		printLocation()
 	end
 	turtle.turnRight()
 	dig()
 	turtle.turnRight()
+	turtle.forward()
+	printLocation()
 end
 
 turtle.turnRight()
-for i = 1,6 do
+for i = 1,7 do
 	turtle.forward()
+	printLocation()
 end
 
 while loc.y < home.y do
