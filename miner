@@ -91,19 +91,21 @@ rednet.close("right")
 rednet.open("right")
 
 print = function(msg)
-	print (msg)
+	base_print (msg)
 	rednet.broadcast(msg)
 end
 
 c = 0
 
-while loc.y > 11 do
+while loc.y > 30 do
 	turtle.down()
 	c = c + 1
+	printLocation()
 end
 
 while c > 0 do
 	turtle.up()
 	c = c - 1
+	printLocation()
 end
 
