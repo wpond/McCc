@@ -1,0 +1,50 @@
+
+loc = {x=-1252,y=72,z=926}
+dir = 3
+
+headings = {
+	"north",
+	"east",
+	"south",
+	"west"
+}
+
+turtle_cmds =  { 
+	base_tl = turtle.turnLeft(),
+	base_tr = turtle.turnRight(),
+	base_tf = turtle.foward(),
+	base_tb = turtle.back(),
+	base_tu = turtle.up(),
+	base_td = turtle.down()
+}
+
+function printLocation()
+	print("(x = " .. loc.x .. ", y = " .. loc.y .. ", z = " .. loc.z .. ")")
+	print("Facing " .. headings[dir + 1])
+end
+
+turtle.turnLeft = function()
+{
+	
+	dir = (dir - 1) % 4;
+	turtle_cmd.base_tl()
+	
+}
+
+turtle.turnRight = function()
+{
+	
+	dir = (dir + 1) % 4;
+	turtle_cmd.base_tr()
+	
+}
+
+for i = 1,4 do
+	printLocation()
+	turtle.turnLeft()
+end
+
+for i = 1,4 do
+	printLocation()
+	turtle.turnReft()
+end
