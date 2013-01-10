@@ -104,7 +104,7 @@ function returnHome()
 	
 	print("return home")
 	
-	face(1)
+	face(3)
 	while loc.x < home.x do
 		turtle.forward()
 		printLocation()
@@ -115,7 +115,7 @@ function returnHome()
 		printLocation()
 	end
 	
-	face(3)
+	face(0)
 	while loc.z > home.z do
 		turtle.forward()
 		printLocation()
