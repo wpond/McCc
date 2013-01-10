@@ -43,7 +43,7 @@ end
 
 turtle.up = function()
 
-	if turtle.up() then
+	if turtle_cmds.base_tu() then
 		loc.y = loc.y + 1
 		return true
 	end
@@ -54,7 +54,7 @@ end
 
 turtle.down = function()
 
-	if turtle.down() then
+	if turtle_cmds.base_td() then
 		loc.y = loc.y - 1
 		return true
 	end
@@ -65,7 +65,7 @@ end
 
 turtle.forward = function()
 	
-	if turtle.foward() then
+	if turtle_cmds.base_tf() then
 		loc.x = loc.x + xDiff[dir+1]
 		loc.z = loc.z + zDiff[dir+1]
 		return true
@@ -77,7 +77,7 @@ end
 
 turtle.back = function()
 	
-	if turtle.back() then
+	if turtle_cmds.base_tb() then
 		loc.x = loc.x - xDiff[dir+1]
 		loc.z = loc.z - zDiff[dir+1]
 		return true
