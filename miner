@@ -141,6 +141,11 @@ print = function(msg)
 	rednet.broadcast(msg)
 end
 
+for i = 0,3 do
+	face(i)
+	printLocation()
+end
+
 turtle.back()
 turtle.back()
 turtle.back()
