@@ -104,7 +104,7 @@ function returnHome()
 	
 	print("return home")
 	
-	face(3)
+	face(1)
 	while loc.x < home.x do
 		turtle.forward()
 		printLocation()
@@ -141,13 +141,6 @@ print = function(msg)
 	rednet.broadcast(msg)
 end
 
-for i = 0,3 do
-	face(i)
-	printLocation()
-end
-
---[[
-
 turtle.back()
 turtle.back()
 turtle.back()
@@ -158,6 +151,8 @@ turtle.back()
 returnHome()
 
 return
+
+--[[
 
 while loc.y > 11 do
 	if not turtle.down() then
