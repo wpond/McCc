@@ -41,19 +41,33 @@ function loadChests()
 	local oY = string.sub(chest,posX+1,posY-1)
 	local oZ = string.sub(chest,posY+1)
 	
-	print ("(" ..oX.. "," ..oY.. "," ..oZ.. ")")
+	origin = {
+		x = tonumber(oX),
+		y = tonumber(oY),
+		z = tonumber(oZ)
+	}
 	
 	while chest ~= nil do
 		
 		chestCount = chestCount + 1
 		
+		local posX = string.find(chest,",")
+		local locX = string.sub(chest,1,posX-1)
+		local posY = string.find(string.sub(chest,posX+1),",")
+		local locY = string.sub(chest,posX+1,posY-1)
+		local locZ = string.sub(chest,posY+1)
+		
+		local desc = string.sub(chest,string.find(chest,":")+1)
+		
 		chests[chestCount] = {
-			loc = { x = 0, y = 0, z = 0 },
-			desc = { "" }
+			loc = { x = locX, y = locY, z = locZ },
+			desc = { desc }
 		}
 		
 		chest = f.readLine()
 	end
+	
+	print("Chests loaded: " ..tostring(#chests))
 	
 	f.close()
 	
