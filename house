@@ -4,6 +4,8 @@ loc = {x=-255,y=69,z=171}
 dir = 0
 homeDir = 0
 
+chests = {}
+
 WORK_DEPTH = 70
 
 headings = {
@@ -24,6 +26,20 @@ turtle_cmds =  {
 	base_tu = turtle.up,
 	base_td = turtle.down
 }
+
+function loadChests()
+	
+	f = fs.open("/disk/chests")
+	
+	local chest
+	
+	while not chest = f.readLine() == nil then
+		print(chest)
+	end
+	
+	f.close()
+	
+end
 
 function printLocation()
 	print("(x = " .. loc.x .. ", y = " .. loc.y .. ", z = " .. loc.z .. ")")
@@ -158,6 +174,12 @@ function goto(x,z)
 	
 end
 
+function gotoChest(chestID)
+	
+	
+	
+end
+
 function returnHome()
 	
 	print("returning home")
@@ -172,8 +194,9 @@ function returnHome()
 	
 end
 
-if not goto(-248,160) then
-	print("PANIC")
+function main()
+	
+	loadChests()
+	
+	
 end
-
-returnHome()
