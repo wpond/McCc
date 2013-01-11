@@ -47,6 +47,8 @@ function loadChests()
 		z = tonumber(oZ)
 	}
 	
+	local chest = f.readLine()
+	
 	while chest ~= nil do
 		
 		chestCount = chestCount + 1
