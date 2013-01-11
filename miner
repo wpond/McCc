@@ -1,10 +1,8 @@
 
-DEPTH = 11
-
 home = {x=2,y=64,z=-1}
 loc = {x=2,y=64,z=-1}
 dir = 0
-homeDir = 0
+homeDir = 2
 
 headings = {
 	"north",
@@ -94,12 +92,31 @@ function dig()
 	turtle.dig()
 	turtle.digDown()
 	turtle.digUp()
+	turtle.suckDown()
 end
 
 function face(target)
 	while dir ~= target do
 		turtle.turnLeft()
 	end
+end
+
+function gotoDepth(y)
+	
+	if loc.y > y then
+		while loc.y > y do
+			if not turtle.down() then
+				turtle.digDown()
+			end
+		end
+	elseif loc.y < y then
+		while loc.y < y do
+			if not turtle.up() then
+				turtle.digUp()
+			end
+		end
+	end
+	
 end
 
 function goto(x,z)
@@ -165,16 +182,25 @@ rednet.open("right")
 while true do
 
 	print("getting job")
-
-	rednet.send(83,"getJob")
-	id,msg = rednet.receive()
-	if not msg == "yes" then
-		print "no jobs"
-		break
+	
+	while true do
+		rednet.send(83,"getJob")
+		id,msg = rednet.receive(1)
+		if msg == "yes" then
+			break
+		elseif not msg == "yes" then
+			print "no jobs"
+			return
+		end
+		if not msg == nil then
+			print("retry [msg recvd: " .. msg .. "]")
+		end
 	end
 
 	print("found job")
-
+	
+	id,msg = rednet.receive()
+	depth = tonumber(msg)
 	id,msg = rednet.receive()
 	startX = tonumber(msg)
 	id,msg = rednet.receive()
@@ -184,22 +210,15 @@ while true do
 	id,msg = rednet.receive()
 	endZ = tonumber(msg)
 
-	print("(" .. startX .. "," .. startZ .. ") -> (" .. endX .. "," .. endZ .. ")")
+	print("(" .. startX .. "," .. startZ .. ") -> (" .. endX .. "," .. endZ .. ") @ "..depth)
 
-	while loc.y > DEPTH + 1 do
-		if not turtle.down() then
-			turtle.digDown()
-		end
-	end
+	gotoDepth(depth+2)
 
-	print("At level " .. DEPTH)
-
+	print("At level " .. depth)
+	
 	goto(startX, startZ)
 	
-	turtle.digUp()
-	while not turtle.up() do
-		turtle.digUp()
-	end
+	gotoDepth(depth)
 	
 	if endX < startX then
 		xDir = 3
@@ -250,9 +269,13 @@ while true do
 		yDist = yDist - 1
 		
 	end
-
+	
+	gotoDepth(depth+3)
+	
 	returnHome()
 
+	gotoDepth(home.y)
+	
 	face(homeDir)
 
 	print("emptying")

@@ -1,33 +1,99 @@
-startCoord = { x = 0, z = 0 }
-endCoord  = { x = 100, z = 100 }
+function loadJobs()
+	
+	f = fs.open("/disk/joblist","r")
+	
+	jobCount = tonumber(f.readLine())
+	
+	for i = 1,jobCount do
+		
+		startX = tonumber(f.readLine())
+		startZ = tonumber(f.readLine())
+		endX = tonumber(f.readLine())
+		endZ = tonumber(f.readLine())
+		depth = tonumber(f.readLine())
+		
+		jobs[i] = {
+			start = { x = startX, z = startZ },
+			finish = { x = endX, z = endZ },
+			depth = depth
+		}
+			
+		print("(" ..jobs[i].start.x.. "," ..jobs[i].start.z.. ") -> (" ..jobs[i].finish.x.. "," ..jobs[i].finish.z.. ") @ " .. jobs[i].depth)
+		
+	end
+	
+	f.close()
+	
+end
 
-current = { x = 0, z = 0 }
-size = { x = 10, z = 10 }
+function saveJobs()
+	
+	if fs.exists("/disk/joblist") then
+		fs.delete("/disk/joblist")
+	end
+	
+	f = fs.open("/disk/joblist","w")
+	
+	f.writeLine(jobCount-jobPos+1)
+	
+	for i = jobPos,jobCount do
+		f.writeLine(jobs[i].start.x)
+		f.writeLine(jobs[i].start.z)
+		f.writeLine(jobs[i].finish.x)
+		f.writeLine(jobs[i].finish.z)
+		f.writeLine(jobs[i].depth)
+	end
+	
+	f.close()
+	
+end
 
 rednet.close("left")
 rednet.open("left")
+
+jobPos = 1
+jobCount = 0
+jobs = {}
+
+loadJobs()
+
+print("ready")
 
 while true do
   
   id,msg = rednet.receive()
   if msg == "getJob" then
     print("job requested from " .. id )
-    if current.x < endCoord.x and current.z < endCoord.z then
+    if jobPos <= jobCount then
+      
+      --send job description
       rednet.send(id,"yes")
-      rednet.send(id,tostring(current.x))
-      rednet.send(id,tostring(current.z))
-      current.x = current.x + size.x
-      rednet.send(id,tostring(current.x-1))
-      rednet.send(id,tostring(current.z + size.z - 1))
-      if current.x >= endCoord.x then
-        current.x = startCoord.x
-        current.z = current.z + size.z
-      end
-      print("job sent")
+      rednet.send(id,tostring(jobs[jobPos].depth))
+      rednet.send(id,tostring(jobs[jobPos].start.x))
+      rednet.send(id,tostring(jobs[jobPos].start.z))
+      rednet.send(id,tostring(jobs[jobPos].finish.x))
+      rednet.send(id,tostring(jobs[jobPos].finish.z))
+      
+	  jobPos = jobPos + 1
+      
       os.sleep(5)
     else
       rednet.send(id,"no")
       print("no jobs available")
     end
+  end
+  if msg == "pause" then
+	print("paused")
+	while true do
+		id,msg = rednet.receive()
+		if msg == "resume" then
+			break
+		end
+	end
+	print("resuming")
+  end
+  if msg == "shutdown" then
+	saveJobs()
+	break
   end
 end
