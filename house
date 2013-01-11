@@ -59,13 +59,11 @@ function loadChests()
 		local locY = string.sub(chest,posX+1,posY-1) .. ""
 		local locZ = string.sub(chest,posY+1) .. ""
 		
-		local desc = string.sub(chest,string.find(chest,":")+1) .. ""
-		
-		print(desc)
+		local desc = string.sub(chest,string.find(chest,":")+1)
 		
 		chests[chestCount] = {
 			loc = { x = locX, y = locY, z = locZ },
-			desc = { desc }
+			desc = { desc .. "" }
 		}
 		
 		chest = f.readLine()
