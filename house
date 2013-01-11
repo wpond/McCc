@@ -4,6 +4,7 @@ loc = {x=-255,y=69,z=171}
 dir = 0
 homeDir = 0
 
+chestCount = 0
 chests = {}
 
 WORK_DEPTH = 70
@@ -33,8 +34,20 @@ function loadChests()
 	
 	local chest = f.readLine()
 	
+	--store 0,0,0
+	local pos = chest.find(",")
+	local oX = chest.sub(1,pos)
+	print(oX)
+	
 	while chest ~= nil do
-		print(chest)
+		
+		chestCount = chestCount + 1
+		
+		chests[chestCount] = {
+			loc = { x = 0, y = 0, z = 0 },
+			desc = { "" }
+		}
+		
 		chest = f.readLine()
 	end
 	
