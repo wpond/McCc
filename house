@@ -36,8 +36,8 @@ function loadChests()
 	
 	--store 0,0,0
 	local posX = string.find(chest,",")
-	local oX = string.sub(chest,1,pos-1)
-	local posY = string.find(string.sub(chest,pos),",")
+	local oX = string.sub(chest,1,posX-1)
+	local posY = string.find(string.sub(chest,posX),",")
 	local oY = string.sub(chest,posX,posY)
 	print ("(" ..oX.. "," ..oY.. ")")
 	
