@@ -4,7 +4,6 @@ loc = {x=-255,y=69,z=171}
 dir = 0
 homeDir = 0
 
-chestCount = 0
 chests = {}
 
 WORK_DEPTH = 70
@@ -34,40 +33,11 @@ function loadChests()
 	
 	local chest = f.readLine()
 	
-	--store 0,0,0
-	local posX = string.find(chest,",")
-	local oX = string.sub(chest,1,posX-1) .. ""
-	local posY = string.find(string.sub(chest,posX+1),",")
-	local oY = string.sub(chest,posX+1,posY-1) .. ""
-	local oZ = string.sub(chest,posY+1) .. ""
+	origin = textutils.unserialize(chest)
 	
-	origin = {
-		x = tonumber(oX),
-		y = tonumber(oY),
-		z = tonumber(oZ)
-	}
+	chest = f.readLine()
 	
-	local chest = f.readLine()
-	
-	while chest ~= nil do
-		
-		chestCount = chestCount + 1
-		
-		local posX = string.find(chest,",")
-		local locX = string.sub(chest,1,posX-1) .. ""
-		local posY = string.find(string.sub(chest,posX+1),",")
-		local locY = string.sub(chest,posX+1,posY-1) .. ""
-		local locZ = string.sub(chest,posY+1) .. ""
-		
-		local desc = string.sub(chest,string.find(chest,":")+1)
-		
-		chests[chestCount] = {
-			loc = { x = locX, y = locY, z = locZ },
-			desc = { desc .. "" }
-		}
-		
-		chest = f.readLine()
-	end
+	chests = textutils.unserialize(chest)
 	
 	print("Chests loaded: " ..tostring(#chests))
 	
