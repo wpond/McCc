@@ -35,8 +35,8 @@ function loadChests()
 	local chest = f.readLine()
 	
 	--store 0,0,0
-	local pos = chest.find(",")
-	local oX = chest.sub(1,pos)
+	local pos = string.find(chest,",")
+	local oX = string.sub(chest,1,pos)
 	print(oX)
 	
 	while chest ~= nil do
