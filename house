@@ -203,7 +203,7 @@ function main()
 	loadChests()
 	
 	gotoY(WORK_DEPTH)
-	goto(origin)
+	goto(origin.x, origin.z)
 	
 	returnHome()
 	
