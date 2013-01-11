@@ -1,0 +1,95 @@
+
+jobs = {}
+jobCount = 0
+jobPos = 1
+
+function saveJobs()
+	
+	if fs.exists("/disk/joblist") then
+		fs.delete("/disk/joblist")
+	end
+	
+	f = fs.open("/disk/joblist","w")
+	
+	f.writeLine(jobCount)
+	
+	for i = 1,jobCount do
+		f.writeLine(jobs[i].start.x)
+		f.writeLine(jobs[i].start.z)
+		f.writeLine(jobs[i].finish.x)
+		f.writeLine(jobs[i].finish.z)
+		f.writeLine(jobs[i].depth)
+	end
+	
+	f.close()
+	
+end
+
+startCoord = { x = -26, y = 58, z = -30 }
+endCoord  = { x = 6, y = 10, z = -10 }
+
+current = { x = -26, y = 58, z = -30 }
+size = { x = 10, y = 3, z = 10 }
+
+if startCoord.x > endCoord.x then
+	x = startCoord.x
+	startCoord.x = endCoord.x
+	endCoord.x = x
+end
+if startCoord.y < endCoord.y then
+	y = startCoord.y
+	startCoord.y = endCoord.y
+	endCoord.y = y
+end
+if startCoord.z > endCoord.z then
+	z = startCoord.z
+	startCoord.z = endCoord.z
+	endCoord.x = z
+end
+
+print("Start = (" ..startCoord.x.. "," ..startCoord.z.. ")")
+print("End = (" ..endCoord.x.. "," ..endCoord.z.. ")")
+
+-- create job list
+print ("Generating jobs")
+while true do
+	
+	job = {
+		start = { x = current.x, z = current.z },
+		finish = { x = current.x + size.x - 1, z = current.z + size.z - 1 },
+		depth = current.y
+	}
+	
+	if job.finish.x >= endCoord.x then
+		job.finishx = endCoord.x
+		current.x = startCoord.x
+		current.z = current.z + size.z
+	else
+		current.x = current.x + size.x
+	end
+	
+	if current.z >= endCoord.z then
+		current.z = startCoord.z
+		current.x = startCoord.x
+		current.y = current.y - size.y
+	end
+	
+	if current.y < endCoord.y then
+		break
+	end
+	
+	jobs[jobPos] = {
+		start = { x = job.start.x, z = job.start.z },
+		finish = { x = job.finish.x, z = job.finish.z },
+		depth = job.depth
+	}
+	jobPos = jobPos + 1
+	jobCount = jobCount + 1
+	
+	print("(" ..job.start.x.. "," ..job.start.z.. ") -> (" ..job.finish.x.. "," .. job.finish.z .. ") @ " .. job.depth)
+	
+end
+
+saveJobs()
+
+print("jobs generated")

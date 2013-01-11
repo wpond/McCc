@@ -1,0 +1,10 @@
+rednet.close("right")
+rednet.open("right")
+
+while true do
+	msg = read()
+	rednet.send(83,msg)
+	if msg == "shutdown" then
+		break
+	end
+end
