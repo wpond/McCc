@@ -32,10 +32,9 @@ function loadChests()
 	f = fs.open("/disk/chests","r")
 	
 	local chest = f.readLine()
-	print(chest)
-	while not chest == nil do
+	
+	while chest ~= nil do
 		print(chest)
-		
 		chest = f.readLine()
 	end
 	
