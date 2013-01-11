@@ -72,7 +72,7 @@ function loadChests()
 	print("Chests loaded: " ..tostring(#chests))
 	
 	for i = 1,#chests do
-		print(chests[i].desc)
+		print(tostring(chests[i].desc))
 	end
 	
 	f.close()
