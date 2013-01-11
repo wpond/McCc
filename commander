@@ -1,0 +1,33 @@
+startCoord = { x = 0, z = 0 }
+endCoord  = { x = 100, z = 100 }
+
+current = { x = 0, z = 0 }
+size = { x = 10, z = 10 }
+
+rednet.close("left")
+rednet.open("left")
+
+while true do
+  
+  id,msg = rednet.receive()
+  if msg == "getJob" then
+    print("job requested from " .. id )
+    if current.x < endCoord.x and current.z < endCoord.z then
+      rednet.send(id,"yes")
+      rednet.send(id,tostring(current.x))
+      rednet.send(id,tostring(current.z))
+      current.x = current.x + size.x
+      rednet.send(id,tostring(current.x-1))
+      rednet.send(id,tostring(current.z + size.z - 1))
+      if current.x >= endCoord.x then
+        current.x = startCoord.x
+        current.z = current.z + size.z
+      end
+      print("job sent")
+      os.sleep(5)
+    else
+      rednet.send(id,"no")
+      print("no jobs available")
+    end
+  end
+end
