@@ -1,3 +1,179 @@
 
-loc = { x = -255, y = 69, z = 71 }
-map = {{{}}}
+home = {x=-255,y=69,z=171}
+loc = {x=-255,y=69,z=171}
+dir = 0
+homeDir = 0
+
+WORK_DEPTH = 70
+
+headings = {
+	"north",
+	"east",
+	"south",
+	"west"
+}
+
+xDiff = { 0, 1, 0, -1 }
+zDiff = { -1, 0, 1, 0 }
+
+turtle_cmds =  { 
+	base_tl = turtle.turnLeft,
+	base_tr = turtle.turnRight,
+	base_tf = turtle.forward,
+	base_tb = turtle.back,
+	base_tu = turtle.up,
+	base_td = turtle.down
+}
+
+function printLocation()
+	print("(x = " .. loc.x .. ", y = " .. loc.y .. ", z = " .. loc.z .. ")")
+	print("Facing " .. headings[dir + 1])
+end
+
+function turnLeft()
+
+	dir = (dir - 1) % 4;
+	turtle_cmds.base_tl()
+	
+end
+
+function turnRight()
+
+	dir = (dir + 1) % 4;
+	turtle_cmds.base_tr()
+	
+end
+
+function up()
+
+	if turtle_cmds.base_tu() then
+		loc.y = loc.y + 1
+		return true
+	end
+	
+	return false
+
+end
+
+function down()
+
+	if turtle_cmds.base_td() then
+		loc.y = loc.y - 1
+		return true
+	end
+	
+	return false
+
+end
+
+function forward()
+	
+	if turtle_cmds.base_tf() then
+		loc.x = loc.x + xDiff[dir+1]
+		loc.z = loc.z + zDiff[dir+1]
+		return true
+	end
+	
+	return false
+	
+end
+
+function back()
+	
+	if turtle_cmds.base_tb() then
+		loc.x = loc.x - xDiff[dir+1]
+		loc.z = loc.z - zDiff[dir+1]
+		return true
+	end
+	
+	return false
+	
+end
+
+function face(target)
+	while dir ~= target do
+		turtle.turnLeft()
+	end
+end
+
+function gotoY(y)
+	
+	if loc.y > y then
+		while loc.y > y do
+			if not turtle.down() then
+				return false
+			end
+		end
+	elseif loc.y < y then
+		while loc.y < y do
+			if not turtle.up() then
+				return false
+			end
+		end
+	end
+	
+	return true
+	
+end
+
+function goto(x,z)
+	
+	if not gotoDepth(WORK_DEPTH) then
+		return false
+	end
+	
+	if loc.x < x then
+		face(1)
+		while loc.x < x do
+			if not turtle.forward() then
+				return false
+			end
+		end
+	elseif loc.x > x then
+		face(3)
+		while loc.x > x do
+			if not turtle.forward() then
+				return false
+			end
+		end
+	end
+	
+	if loc.z > z then
+		face(0)
+		while loc.z > z do
+			if not turtle.forward() then
+				return false
+			end
+		end
+	elseif loc.z < z then
+		face(2)
+		while loc.z < z do
+			if not turtle.forward() then
+				return false
+			end
+		end
+	end
+	
+	return true
+	
+end
+
+function returnHome()
+	
+	print("returning home")
+	
+	goto(home.x,home.z)
+	
+	gotoDepth(home.y)
+	
+	face(homeDir)
+	
+	print("home")
+	
+end
+
+if not goto(-248,160) then
+	print("PANIC")
+end
+
+returnHome()
