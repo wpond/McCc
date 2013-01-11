@@ -92,7 +92,7 @@ end
 
 function face(target)
 	while dir ~= target do
-		turtle.turnLeft()
+		turnLeft()
 	end
 end
 
@@ -100,13 +100,13 @@ function gotoY(y)
 	
 	if loc.y > y then
 		while loc.y > y do
-			if not turtle.down() then
+			if not down() then
 				return false
 			end
 		end
 	elseif loc.y < y then
 		while loc.y < y do
-			if not turtle.up() then
+			if not up() then
 				return false
 			end
 		end
@@ -118,21 +118,21 @@ end
 
 function goto(x,z)
 	
-	if not gotoDepth(WORK_DEPTH) then
+	if not gotoY(WORK_DEPTH) then
 		return false
 	end
 	
 	if loc.x < x then
 		face(1)
 		while loc.x < x do
-			if not turtle.forward() then
+			if not forward() then
 				return false
 			end
 		end
 	elseif loc.x > x then
 		face(3)
 		while loc.x > x do
-			if not turtle.forward() then
+			if not forward() then
 				return false
 			end
 		end
@@ -141,14 +141,14 @@ function goto(x,z)
 	if loc.z > z then
 		face(0)
 		while loc.z > z do
-			if not turtle.forward() then
+			if not forward() then
 				return false
 			end
 		end
 	elseif loc.z < z then
 		face(2)
 		while loc.z < z do
-			if not turtle.forward() then
+			if not forward() then
 				return false
 			end
 		end
@@ -164,7 +164,7 @@ function returnHome()
 	
 	goto(home.x,home.z)
 	
-	gotoDepth(home.y)
+	gotoY(home.y)
 	
 	face(homeDir)
 	
