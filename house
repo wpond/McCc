@@ -29,7 +29,7 @@ turtle_cmds =  {
 
 function loadChests()
 	
-	f = fs.open("/disk/chests")
+	f = fs.open("/disk/chests","r")
 	
 	local chest = f.readLine()
 	print(chest)
