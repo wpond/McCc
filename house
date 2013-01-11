@@ -33,7 +33,7 @@ function loadChests()
 	
 	local chest
 	
-	while not chest = f.readLine() == nil then
+	while not chest = f.readLine() == nil do
 		print(chest)
 	end
 	
