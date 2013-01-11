@@ -41,10 +41,6 @@ function loadChests()
 	
 	print("Chests loaded: " ..tostring(#chests))
 	
-	for i = 1,#chests do
-		print(chests[i].desc)
-	end
-	
 	f.close()
 	
 end
@@ -206,6 +202,10 @@ function main()
 	
 	loadChests()
 	
+	gotoY(WORKING_DEPTH)
+	goto(origin)
+	
+	returnHome()
 	
 end
 
