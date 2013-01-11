@@ -61,6 +61,8 @@ function loadChests()
 		
 		local desc = string.sub(chest,string.find(chest,":")+1) .. ""
 		
+		print(desc)
+		
 		chests[chestCount] = {
 			loc = { x = locX, y = locY, z = locZ },
 			desc = { desc }
@@ -72,7 +74,7 @@ function loadChests()
 	print("Chests loaded: " ..tostring(#chests))
 	
 	for i = 1,#chests do
-		print(chests[i].loc.x)
+		print(chests[i].desc)
 	end
 	
 	f.close()
