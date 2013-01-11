@@ -36,10 +36,10 @@ function loadChests()
 	
 	--store 0,0,0
 	local posX = string.find(chest,",")
-	local oX = string.sub(chest,1,posX-1)
+	local oX = string.sub(chest,1,posX-1) .. ""
 	local posY = string.find(string.sub(chest,posX+1),",")
-	local oY = string.sub(chest,posX+1,posY-1)
-	local oZ = string.sub(chest,posY+1)
+	local oY = string.sub(chest,posX+1,posY-1) .. ""
+	local oZ = string.sub(chest,posY+1) .. ""
 	
 	origin = {
 		x = tonumber(oX),
@@ -54,12 +54,12 @@ function loadChests()
 		chestCount = chestCount + 1
 		
 		local posX = string.find(chest,",")
-		local locX = string.sub(chest,1,posX-1)
+		local locX = string.sub(chest,1,posX-1) .. ""
 		local posY = string.find(string.sub(chest,posX+1),",")
-		local locY = string.sub(chest,posX+1,posY-1)
-		local locZ = string.sub(chest,posY+1)
+		local locY = string.sub(chest,posX+1,posY-1) .. ""
+		local locZ = string.sub(chest,posY+1) .. ""
 		
-		local desc = string.sub(chest,string.find(chest,":")+1)
+		local desc = string.sub(chest,string.find(chest,":")+1) .. ""
 		
 		chests[chestCount] = {
 			loc = { x = locX, y = locY, z = locZ },
@@ -72,7 +72,7 @@ function loadChests()
 	print("Chests loaded: " ..tostring(#chests))
 	
 	for i = 1,#chests do
-		print(tostring(chests[i].desc))
+		print(chests[i].desc)
 	end
 	
 	f.close()
