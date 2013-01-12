@@ -6,6 +6,23 @@ function startsWith(string, start)
 	return string.sub(msg,1,string.len(start)) == start
 end
 
+function split(s,divider)
+	pieces = {}
+	pos = 1
+	remaining = s
+	while true do
+		pos = string.find(remaining,divider)
+		if pos == nil then
+			if remaining ~= "" then
+				pieces[#pieces+1] = remaining
+			end
+			break
+		end
+		pieces[#pieces+1] = string.sub(remaining,1,pos)
+		remaining = string.sub(remaining,pos+1)
+	end
+end
+
 function loadInventory()
 	
 	if fs.exists(INVENTORY_FILE) then
