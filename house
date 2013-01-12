@@ -201,6 +201,9 @@ function gotoChest(idx)
 	end
 	]]--
 	
+	print("my location = (" ..loc.x.. "," ..loc.y.. "," ..loc.z.. ")")
+	print("chest location = (" ..origin.x + chest.loc.x.. "," ..origin.y + chest.loc.y.. "," ..origin.z + chest.loc.z.. ")")
+	
 	gotoX(origin.x)
 	gotoZX(origin.x + chest.loc.x, origin.z + chest.loc.z)
 	
@@ -260,9 +263,7 @@ function main()
 	gotoOrigin()
 	
 	--pickupUnsorted()
-	for i = 1,#chests do
-		gotoChest(i)
-	end
+	gotoChest(1)
 	
 	returnHome()
 	
