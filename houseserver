@@ -17,9 +17,9 @@ function split(s,divider,count)
 		if pos == nil then
 			break
 		end
-		pieces[#pieces+1] = string.sub(remaining,1,pos)
+		pieces[#pieces+1] = string.sub(remaining,1,pos) .. ""
 		count = count - 1
-		remaining = string.sub(remaining,pos+1)
+		remaining = string.sub(remaining,pos+1) .. ""
 	end
 	
 	if remaining ~= "" then
@@ -81,16 +81,16 @@ function main()
 			
 		elseif startsWith(msg,"checkin") then
 			
-			local parts = split(msg, " ",2)
+			local parts = split(msg, " ",3)
 			
 			if #parts == 2 then
-				local item =  parts[2]
+				local item =  parts[3]
 				if inventory[item] == nil then
-					inventory[item] = tonumber(parts[1])
+					inventory[item] = tonumber(parts[2])
 					print(tonumber(parts[1]))
 					print(item .. " = " ..inventory[item])
 				else
-					inventory[item] = inventory[item] + tonumber(parts[1])
+					inventory[item] = inventory[item] + tonumber(parts[2])
 				end
 				print(msg)
 				saveInventory()
