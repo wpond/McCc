@@ -16,7 +16,7 @@ while true do
 		f = fs.open(CHESTS_FILE,"r")
 		while true do
 			line = f.readLine()
-			if line == nil
+			if line == nil then
 				break
 			end
 			rednet.send(id,line)
