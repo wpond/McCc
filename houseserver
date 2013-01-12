@@ -38,7 +38,7 @@ end
 
 function main()
 	
-	loadInv()
+	loadInventory()
 	
 	rednet.close("right")
 	rednet.open("right")
