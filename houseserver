@@ -84,12 +84,11 @@ function main()
 			local parts = split(msg, " ",2)
 			
 			if #parts == 2 then
-				local count = tonumber(parts[1])
 				local item =  parts[2]
 				if inventory[item] == nil then
-					inventory[item] = count
+					inventory[item] = tonumber(parts[1])
 				else
-					inventory[item] = inventory[item] + count
+					inventory[item] = inventory[item] + tonumber(parts[1])
 				end
 				print(msg)
 				saveInventory()
