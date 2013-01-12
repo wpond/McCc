@@ -1,4 +1,6 @@
 
+INVENTORY_SERVER = 54
+
 home = {x=-255,y=69,z=171}
 loc = {x=-255,y=69,z=171}
 dir = 0
@@ -25,7 +27,7 @@ turtle_cmds =  {
 
 function loadChests()
 	
-	rednet.send(54, "chests")
+	rednet.send(INVENTORY_SERVER, "chests")
 	
 	id,msg = rednet.receive()
 	origin = textutils.unserialize(msg)
@@ -256,13 +258,15 @@ function sort()
 			turtle.select(16)
 			turtle.suck()
 			local empty = true
+			local count = 0
 			for j = 1,15 do
-			
+				
 				if turtle.getItemCount(j) > 0 then
 					empty = false
 					
 					turtle.select(j)
 					if turtle.compareTo(16) then
+						count = count + turtle.getItemCount(j)
 						turtle.drop()
 					end
 					
@@ -271,6 +275,8 @@ function sort()
 			end
 			turtle.select(16)
 			turtle.drop()
+			
+			rednet.send(INVENTORY_SERVER,"checkin " .. count .. " " .. chests[i].desc)
 			
 			if empty then
 				return
