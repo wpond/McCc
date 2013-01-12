@@ -205,16 +205,16 @@ end
 
 function pickupUnsorted()
 	
-				gotoY(origin.y + input.loc.y)
-				
-				if loc.z == origin.z + input.loc.z then
-					gotoX(origin.x + input.loc.x)
-				else
-					gotoX(input.x)
-					gotoXZ(origin.x + input.loc.x, origin.z + input.loc.z)
-				end
-				
-				face(input.face)
+	gotoY(origin.y + input.loc.y)
+	
+	if loc.z == origin.z + input.loc.z then
+		gotoX(origin.x + input.loc.x)
+	else
+		gotoX(origin.x)
+		gotoZX(origin.x + input.loc.x, origin.z + input.loc.z)
+	end
+	
+	face(input.face)
 	
 	turtle.select(1)
 	for i = 1,15 do
@@ -224,6 +224,37 @@ function pickupUnsorted()
 	end
 	gotoY(origin.y)
 	gotoXZ(origin.x, origin.z)
+	
+end
+
+function sort()
+	
+	for i = 1,#chests do
+		
+		gotoChest(i)
+		turtle.select(16)
+		turtle.suck()
+		local empty = true
+		for j = 1,15 do
+		
+			if turtle.getItemCount() > 0 then
+				empty = false
+				
+				if turtle.compareTo(16) then
+					turtle.drop()
+				end
+				
+			end
+			
+		end
+		turtle.select(16)
+		turtle.drop()
+		
+		if empty then
+			break
+		end
+		
+	end
 	
 end
 
@@ -254,10 +285,8 @@ function main()
 	
 	gotoOrigin()
 	
-	--pickupUnsorted()
-	for i = 1,#chests do
-		gotoChest(i)
-	end
+	pickupUnsorted()
+	sort()
 	
 	returnHome()
 	
