@@ -81,10 +81,18 @@ function main()
 			
 		elseif startsWith(msg,"checkin") then
 			
-			local parts = split(msg, " ")
-			if #parts >= 2 then
+			local parts = split(msg, " ",2)
+			
+			if #parts == 2 then
 				local count = tonumber(parts[1])
-				local item = 
+				local item =  parts[2]
+				if inventory[item] == nil then
+					inventory[item] = count
+				else
+					inventory[item] = inventory[item] + count
+				end
+				print(msg)
+				saveInventory()
 			end
 			
 		elseif startsWith(msg,"checkout") then
