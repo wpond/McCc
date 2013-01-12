@@ -172,9 +172,14 @@ end
 
 function pickupUnsorted()
 	
-	goto(origin.x + input.x, origin.z + input.z)
+	goto(origin.x + input.loc.x, origin.z + input.loc.z)
+	face(input.face)
 	turtle.select(1)
-	while turtle.suck() do end
+	for i = 1,15 do
+		if not turtle.suck() then
+			break
+		end
+	end
 	goto(origin.x, origin.z)
 	
 end
