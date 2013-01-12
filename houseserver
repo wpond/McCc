@@ -12,14 +12,14 @@ function split(s,divider,count)
 	pieces = {}
 	pos = 1
 	remaining = s
-	while count > 0 do
+	while count > 1 do
 		pos = string.find(remaining,divider)
 		if pos == nil then
 			break
 		end
 		pieces[#pieces+1] = string.sub(remaining,1,pos) .. ""
-		count = count - 1
 		remaining = string.sub(remaining,pos+1) .. ""
+		count = count - 1
 	end
 	
 	if remaining ~= "" then
