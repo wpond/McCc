@@ -88,11 +88,11 @@ function main()
 				local item =  parts[2]
 				if inventory[item] == nil then
 					inventory[item] = count
+					print("test")
 				else
 					inventory[item] = inventory[item] + count
 				end
 				print(msg)
-				print(item .. ": " .. inventory[item])
 				saveInventory()
 			end
 			
