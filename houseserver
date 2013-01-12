@@ -5,7 +5,7 @@ rednet.close("right")
 rednet.open("right")
 
 function startsWith(string, start)
-	return string.sub(msg,string.len(start)) == start
+	return string.sub(msg,1,string.len(start)) == start
 end
 
 while true do
