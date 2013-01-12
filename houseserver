@@ -87,6 +87,7 @@ function main()
 				local item =  parts[2]
 				if inventory[item] == nil then
 					inventory[item] = tonumber(parts[1])
+					print(item .. " = " ..inventory[item])
 				else
 					inventory[item] = inventory[item] + tonumber(parts[1])
 				end
