@@ -180,7 +180,7 @@ end
 
 function gotoZX(x,z)
 	
-	return gotoZ(x) and gotoX(z)
+	return gotoZ(z) and gotoX(x)
 	
 end
 
