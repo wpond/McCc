@@ -1,0 +1,29 @@
+CHESTS_FILE = "/disk/chests"
+
+if fs.exists(CHESTS_FILE) then
+	fs.delete(CHESTS_FILE)
+end
+ 
+f = fs.open("/disk/chests","w")
+ 
+origin = { x = -254, y = 70, z = 172 }
+ 
+f.writeLine(textutils.serialize(origin))
+ 
+input = { loc = { x = 0, y = -2, z = 0 }, face = 0 }
+ 
+f.writeLine(textutils.serialize(input))
+ 
+reject = { loc = { x = 2, y = -2, z = 0 }, face = 0 }
+ 
+f.writeLine(textutils.serialize(reject))
+ 
+chests = {
+	{ loc = { x = -6, y = 0, z = -1 }, desc = "dirt", empty = false },
+	{ loc = { x = -4, y = 0, z = -1 }, desc = "cobblestone", empty = false },
+	{ loc = { x = -2, y = 0, z = -1 }, desc = "gravel", empty = false }
+}
+ 
+f.writeLine(textutils.serialize(chests))
+ 
+f.close()

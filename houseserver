@@ -1,0 +1,34 @@
+
+CHESTS_FILE = "/disk/chests"
+
+rednet.close("right")
+rednet.open("right")
+
+function startsWith(string, start)
+	return string.sub(msg,string.len(start)) == start
+end
+
+while true do
+	
+	id,msg = rednet.receive()
+	if startsWith(msg,"chests") then
+		
+		f = fs.open(CHESTS_FILE,"r")
+		while true do
+			line = f.readLine()
+			if line == nil
+				break
+			end
+			rednet.send(id,line)
+		end
+		f.close()
+		
+	elseif startsWith(msg,"checkin") then
+	
+	elseif startsWith(msg,"checkout") then
+	
+	elseif startsWith(msg,"available") then
+	
+	end
+	
+end
