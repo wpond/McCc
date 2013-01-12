@@ -65,7 +65,8 @@ function main()
 			local item = tonumber(string.sub(remainder,string.find(remainder," ")))
 			
 			print(msg)
-			print("checkin " .. count .. " " .. item)
+			print("count = " .. count)
+			print("item = " .. item)
 			
 		elseif startsWith(msg,"checkout") then
 			
