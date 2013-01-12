@@ -88,8 +88,6 @@ function main()
 				local count = tonumber(parts[2])
 				if inventory[item] == nil then
 					inventory[item] = count
-					print(tonumber(parts[1]))
-					print(item .. " = " ..inventory[item])
 				else
 					inventory[item] = inventory[item] + count
 				end
@@ -103,7 +101,18 @@ function main()
 			
 		elseif startsWith(msg,"available") then
 			
+			local parts = split(msg, " ",2)
 			
+			if #parts == 2 then
+				
+				local item = parts[2]
+				local count = inventory[item]
+				if count == nil then
+					count = 0
+				end
+				rednet.send(id,tostring(count))
+				
+			end
 			
 		end
 		
