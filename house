@@ -192,14 +192,14 @@ function gotoChest(idx)
 	
 	gotoY(origin.y + chest.loc.y)
 	
-	if loc.z == origin.z + chest.loc.z then
+	if loc.z == origin.z + chest.loc.z - 1 then
 		gotoX(origin.x + chest.loc.x)
 	else
 		gotoX(origin.x)
-		gotoZX(origin.x + chest.loc.x, origin.z + chest.loc.z)
+		gotoZX(origin.x + chest.loc.x, origin.z + chest.loc.z - 1)
 	end
 	
-	face(chest.face)
+	face(2)
 	
 end
 
@@ -231,28 +231,32 @@ function sort()
 	
 	for i = 1,#chests do
 		
-		gotoChest(i)
-		turtle.select(16)
-		turtle.suck()
-		local empty = true
-		for j = 1,15 do
-		
-			if turtle.getItemCount(j) > 0 then
-				empty = false
-				
-				turtle.select(j)
-				if turtle.compareTo(16) then
-					turtle.drop()
+		if not chests[i].empty then
+			
+			gotoChest(i)
+			turtle.select(16)
+			turtle.suck()
+			local empty = true
+			for j = 1,15 do
+			
+				if turtle.getItemCount(j) > 0 then
+					empty = false
+					
+					turtle.select(j)
+					if turtle.compareTo(16) then
+						turtle.drop()
+					end
+					
 				end
 				
 			end
+			turtle.select(16)
+			turtle.drop()
 			
-		end
-		turtle.select(16)
-		turtle.drop()
+			if empty then
+				break
+			end
 		
-		if empty then
-			break
 		end
 		
 	end
