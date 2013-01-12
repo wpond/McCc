@@ -237,9 +237,10 @@ function sort()
 		local empty = true
 		for j = 1,15 do
 		
-			if turtle.getItemCount() > 0 then
+			if turtle.getItemCount(j) > 0 then
 				empty = false
 				
+				turtle.select(j)
 				if turtle.compareTo(16) then
 					turtle.drop()
 				end
