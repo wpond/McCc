@@ -84,6 +84,9 @@ function main()
 			local parts = split(msg, " ",3)
 			
 			if #parts == 3 then
+				
+				print(msg)
+			
 				local item =  parts[3]
 				local count = tonumber(parts[2])
 				if inventory[item] == nil then
@@ -91,13 +94,31 @@ function main()
 				else
 					inventory[item] = inventory[item] + count
 				end
-				print(msg)
 				saveInventory()
 			end
 			
 		elseif startsWith(msg,"checkout") then
 			
+			local parts = split(msg, " ",3)
 			
+			if #parts == 3 then
+				
+				print(msg)
+				
+				local item =  parts[3]
+				local count = tonumber(parts[2])
+				if inventory[item] == nil then
+					inventory[item] = -1 * count
+				else
+					inventory[item] = inventory[item] - count
+				end
+				
+				if inventory[item] < 0 then
+					print("Warning, " .. item .. " now in negative inventory")
+				end
+				
+				saveInventory()
+			end
 			
 		elseif startsWith(msg,"available") then
 			
