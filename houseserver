@@ -21,6 +21,7 @@ function split(s,divider)
 		pieces[#pieces+1] = string.sub(remaining,1,pos)
 		remaining = string.sub(remaining,pos+1)
 	end
+	return pieces
 end
 
 function loadInventory()
