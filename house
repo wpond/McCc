@@ -25,16 +25,21 @@ turtle_cmds =  {
 
 function loadChests()
 	
-	f = fs.open("/disk/chests","r")
+	rednet.send(54, "chests")
 	
-	origin = textutils.unserialize(f.readLine())
-	input = textutils.unserialize(f.readLine())
-	reject = textutils.unserialize(f.readLine())
-	chests = textutils.unserialize(f.readLine())
+	id,msg = rednet.receive()
+	origin = textutils.unserialize(msg)
+	
+	id,msg = rednet.receive()
+	input = textutils.unserialize(msg)
+	
+	id,msg = rednet.receive()
+	reject = textutils.unserialize(msg)
+	
+	id,msg = rednet.receive()
+	chests = textutils.unserialize(msg)
 	
 	print("Chests loaded: " ..tostring(#chests))
-	
-	f.close()
 	
 end
 
@@ -316,6 +321,9 @@ end
 
 function main()
 	
+	rednet.close("right")
+	rednet.open("right")
+	
 	loadChests()
 	
 	gotoOrigin()
@@ -324,6 +332,8 @@ function main()
 	sort()
 	
 	returnHome()
+	
+	rednet.close("right")
 	
 end
 
