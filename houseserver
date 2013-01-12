@@ -1,34 +1,84 @@
 
+INVENTORY_FILE = "/disk/inventory"
 CHESTS_FILE = "/disk/chests"
-
-rednet.close("right")
-rednet.open("right")
 
 function startsWith(string, start)
 	return string.sub(msg,1,string.len(start)) == start
 end
 
-while true do
+function loadInventory()
 	
-	id,msg = rednet.receive()
-	if startsWith(msg,"chests") then
+	if fs.exists(INVENTORY_FILE) then
+	
+		f = fs.open(INVENTORY_FILE,"r")
 		
-		f = fs.open(CHESTS_FILE,"r")
-		while true do
-			line = f.readLine()
-			if line == nil then
-				break
-			end
-			rednet.send(id,line)
-		end
+		inventory = textutils.unserialize(f.readLine())
+		
 		f.close()
-		
-	elseif startsWith(msg,"checkin") then
 	
-	elseif startsWith(msg,"checkout") then
-	
-	elseif startsWith(msg,"available") then
-	
+	else
+		inventory = {}
 	end
 	
 end
+
+function saveInventory()
+	
+	if fs.exists(INVENTORY_FILE) then
+		fs.delete(INVENTORY_FILE)
+	end
+	
+	f = fs.open(INVENTORY_FILE,"w")
+	
+	f.writeLine(textutils.serialize(inventory))
+	
+	f.close()
+	
+end
+
+function main()
+	
+	loadInv()
+	
+	rednet.close("right")
+	rednet.open("right")
+
+	while true do
+		
+		id,msg = rednet.receive()
+		if startsWith(msg,"chests") then
+			
+			f = fs.open(CHESTS_FILE,"r")
+			while true do
+				line = f.readLine()
+				if line == nil then
+					break
+				end
+				rednet.send(id,line)
+			end
+			f.close()
+			
+		elseif startsWith(msg,"checkin") then
+			
+			local remainder = string.sub(msg,string.len("checkin "))
+			local count = tonumber(string.sub(remainder,1,string.find(" ")))
+			local item = tonumber(string.sub(remainder,string.find(" ")))
+			
+			print(msg)
+			print("checkin " .. count .. " " .. item)
+			
+		elseif startsWith(msg,"checkout") then
+			
+			
+			
+		elseif startsWith(msg,"available") then
+			
+			
+			
+		end
+		
+	end
+
+end
+
+main()
