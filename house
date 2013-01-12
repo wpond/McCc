@@ -184,22 +184,33 @@ function gotoZX(x,z)
 	
 end
 
-function gotoChest(idx)
+function gotoChest(idx,side)
 	
 	local chest = chests[idx]
+	
+	local targetZ
+	local targetFace
+	
+	if side == "front"
+		targetZ = origin.z + chest.loc.z - 1
+		targetFace = 2
+	elseif side == "back"
+		targetZ = origin.z + chest.loc.z + 1
+		targetFace = 0
+	end
 	
 	print("goto chest: " ..chest.desc.. "["..idx.."]")
 	
 	gotoY(origin.y + chest.loc.y)
 	
-	if loc.z == origin.z + chest.loc.z - 1 then
+	if loc.z == targetZ then
 		gotoX(origin.x + chest.loc.x)
 	else
 		gotoX(origin.x)
-		gotoZX(origin.x + chest.loc.x, origin.z + chest.loc.z - 1)
+		gotoZX(origin.x + chest.loc.x, targetZ)
 	end
 	
-	face(2)
+	face(targetFace)
 	
 end
 
@@ -233,7 +244,7 @@ function sort()
 		
 		if not chests[i].empty then
 			
-			gotoChest(i)
+			gotoChest(i,"back")
 			turtle.select(16)
 			turtle.suck()
 			local empty = true
