@@ -2,6 +2,8 @@
 INVENTORY_FILE = "/disk/inventory"
 CHESTS_FILE = "/disk/chests"
 
+inventory = {}
+
 function startsWith(string, start)
 	return string.sub(msg,1,string.len(start)) == start
 end
@@ -37,8 +39,6 @@ function loadInventory()
 		
 		f.close()
 	
-	else
-		inventory = {}
 	end
 	
 end
@@ -88,7 +88,6 @@ function main()
 				local item =  parts[2]
 				if inventory[item] == nil then
 					inventory[item] = count
-					print("test")
 				else
 					inventory[item] = inventory[item] + count
 				end
