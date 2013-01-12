@@ -61,8 +61,8 @@ function main()
 		elseif startsWith(msg,"checkin") then
 			
 			local remainder = string.sub(msg,string.len("checkin "))
-			local count = tonumber(string.sub(remainder,1,string.find(" ")))
-			local item = tonumber(string.sub(remainder,string.find(" ")))
+			local count = tonumber(string.sub(remainder,1,string.find(remainder," ")))
+			local item = tonumber(string.sub(remainder,string.find(remainder," ")))
 			
 			print(msg)
 			print("checkin " .. count .. " " .. item)
