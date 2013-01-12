@@ -29,6 +29,7 @@ function loadChests()
 	
 	origin = textutils.unserialize(f.readLine())
 	input = textutils.unserialize(f.readLine())
+	reject = textutils.unserialize(f.readLine())
 	chests = textutils.unserialize(f.readLine())
 	
 	print("Chests loaded: " ..tostring(#chests))
@@ -197,6 +198,8 @@ function gotoChest(idx,side)
 	elseif side == "back" then
 		targetZ = origin.z + chest.loc.z + 1
 		targetFace = 0
+	else
+		return
 	end
 	
 	print("goto chest: " ..chest.desc.. "["..idx.."]")
@@ -265,11 +268,27 @@ function sort()
 			turtle.drop()
 			
 			if empty then
-				break
+				return
 			end
 		
 		end
 		
+	end
+	
+	gotoY(origin.y + reject.loc.y)
+	
+	if loc.z == origin.z + reject.loc.z then
+		gotoX(origin.x + reject.loc.x)
+	else
+		gotoX(origin.x)
+		gotoZX(origin.x + reject.loc.x, origin.z + reject.loc.z)
+	end
+	
+	face(reject.face)
+	
+	for i = 1,15 do
+		turtle.select(i)
+		turtle.drop()
 	end
 	
 end
