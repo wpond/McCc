@@ -304,9 +304,9 @@ function returnHome()
 	
 	print("returning home")
 	
+	gotoY(home.y)
 	gotoX(origin.x)
 	gotoXZ(home.x,home.z)
-	gotoY(home.y)
 	
 	face(homeDir)
 	
