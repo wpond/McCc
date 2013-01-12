@@ -276,7 +276,9 @@ function sort()
 			turtle.select(16)
 			turtle.drop()
 			
-			rednet.send(INVENTORY_SERVER,"checkin " .. count .. " " .. chests[i].desc)
+			if count > 0 then
+				rednet.send(INVENTORY_SERVER,"checkin " .. count .. " " .. chests[i].desc)
+			end
 			
 			if empty then
 				return
