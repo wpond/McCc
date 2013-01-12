@@ -6,21 +6,24 @@ function startsWith(string, start)
 	return string.sub(msg,1,string.len(start)) == start
 end
 
-function split(s,divider)
+function split(s,divider,count)
 	pieces = {}
 	pos = 1
 	remaining = s
-	while true do
+	while count > 0 do
 		pos = string.find(remaining,divider)
 		if pos == nil then
-			if remaining ~= "" then
-				pieces[#pieces+1] = remaining
-			end
 			break
 		end
 		pieces[#pieces+1] = string.sub(remaining,1,pos)
+		count = count - 1
 		remaining = string.sub(remaining,pos+1)
 	end
+	
+	if remaining ~= "" then
+		pieces[#pieces+1] = remaining
+	end
+	
 	return pieces
 end
 
@@ -78,13 +81,11 @@ function main()
 			
 		elseif startsWith(msg,"checkin") then
 			
-			local remainder = string.sub(msg,string.len("checkin "))
-			local count = tonumber(string.sub(remainder,1,string.find(remainder," ")))
-			local item = tonumber(string.sub(remainder,string.find(remainder," ")))
-			
-			print(msg)
-			print("count = " .. count)
-			print("item = " .. item)
+			local parts = split(msg, " ")
+			if #parts >= 2 then
+				local count = tonumber(parts[1])
+				local item = 
+			end
 			
 		elseif startsWith(msg,"checkout") then
 			
