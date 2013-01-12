@@ -4,10 +4,6 @@ loc = {x=-255,y=69,z=171}
 dir = 0
 homeDir = 0
 
-chests = {}
-
-WORK_DEPTH = 70
-
 headings = {
 	"north",
 	"east",
@@ -31,13 +27,9 @@ function loadChests()
 	
 	f = fs.open("/disk/chests","r")
 	
-	local chest = f.readLine()
-	
-	origin = textutils.unserialize(chest)
-	
-	chest = f.readLine()
-	
-	chests = textutils.unserialize(chest)
+	origin = textutils.unserialize(f.readLine())
+	input = textutils.unserialize(f.readLine())
+	chests = textutils.unserialize(f.readLine())
 	
 	print("Chests loaded: " ..tostring(#chests))
 	
@@ -178,9 +170,12 @@ function goto(x,z)
 	
 end
 
-function gotoChest(chestID)
+function pickupUnsorted()
 	
-	
+	goto(origin.x + input.x, origin.z + input.z)
+	turtle.select(1)
+	while turtle.suck() do end
+	goto(origin.x, origin.z)
 	
 end
 
@@ -202,8 +197,10 @@ function main()
 	
 	loadChests()
 	
-	gotoY(WORK_DEPTH)
+	gotoY(origin.y)
 	goto(origin.x, origin.z)
+	
+	pickupUnsorted()
 	
 	returnHome()
 	
