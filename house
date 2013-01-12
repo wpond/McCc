@@ -192,12 +192,17 @@ function gotoChest(idx)
 	
 	gotoY(origin.y + chest.loc.y)
 	
+	--[[
 	if loc.z == origin.z + chest.loc.z then
 		gotoX(origin.x + chest.loc.x)
 	else
 		gotoX(origin.x)
 		gotoZX(origin.x + chest.loc.x, origin.z + chest.loc.z)
 	end
+	]]--
+	
+	gotoX(origin.x)
+	gotoZX(origin.x + chest.loc.x, origin.z + chest.loc.z)
 	
 	face(chest.face)
 	
@@ -238,6 +243,7 @@ function returnHome()
 	
 	print("returning home")
 	
+	gotoX(origin.x)
 	gotoXZ(home.x,home.z)
 	gotoY(home.y)
 	
