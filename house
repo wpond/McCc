@@ -192,20 +192,12 @@ function gotoChest(idx)
 	
 	gotoY(origin.y + chest.loc.y)
 	
-	--[[
 	if loc.z == origin.z + chest.loc.z then
 		gotoX(origin.x + chest.loc.x)
 	else
 		gotoX(origin.x)
 		gotoZX(origin.x + chest.loc.x, origin.z + chest.loc.z)
 	end
-	]]--
-	
-	print("my location = (" ..loc.x.. "," ..loc.y.. "," ..loc.z.. ")")
-	print("chest location = (" ..origin.x + chest.loc.x.. "," ..origin.y + chest.loc.y.. "," ..origin.z + chest.loc.z.. ")")
-	
-	gotoX(origin.x)
-	gotoZX(origin.x + chest.loc.x, origin.z + chest.loc.z)
 	
 	face(chest.face)
 	
