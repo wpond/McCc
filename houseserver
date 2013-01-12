@@ -83,7 +83,7 @@ function main()
 			
 			local parts = split(msg, " ",3)
 			
-			if #parts == 2 then
+			if #parts == 3 then
 				local item =  parts[3]
 				local count = tonumber(parts[2])
 				if inventory[item] == nil then
