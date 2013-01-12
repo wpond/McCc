@@ -173,6 +173,7 @@ end
 function pickupUnsorted()
 	
 	goto(origin.x + input.loc.x, origin.z + input.loc.z)
+	gotoY(origin.y + input.loc.y)
 	face(input.face)
 	turtle.select(1)
 	for i = 1,15 do
@@ -180,6 +181,7 @@ function pickupUnsorted()
 			break
 		end
 	end
+	gotoY(origin.y)
 	goto(origin.x, origin.z)
 	
 end
