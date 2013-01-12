@@ -186,7 +186,7 @@ end
 
 function gotoChest(idx)
 	
-	chest = chests[idx]
+	local chest = chests[idx]
 	
 	gotoY(origin.y + chest.loc.y)
 	
@@ -251,7 +251,10 @@ function main()
 	
 	gotoOrigin()
 	
-	pickupUnsorted()
+	--pickupUnsorted()
+	for i = 1,#chests do
+		gotoChest(i)
+	end
 	
 	returnHome()
 	
