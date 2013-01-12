@@ -205,16 +205,16 @@ end
 
 function pickupUnsorted()
 	
-	gotoY(origin.y + input.loc.y)
-	
-	if loc.z == origin.z + input.loc.z then
-		gotoX(origin.x + input.loc.x)
-	else
-		gotoX(input.x)
-		gotoXZ(origin.x + input.loc.x, origin.z + input.loc.z)
-	end
-	
-	face(input.face)
+				gotoY(origin.y + input.loc.y)
+				
+				if loc.z == origin.z + input.loc.z then
+					gotoX(origin.x + input.loc.x)
+				else
+					gotoX(input.x)
+					gotoXZ(origin.x + input.loc.x, origin.z + input.loc.z)
+				end
+				
+				face(input.face)
 	
 	turtle.select(1)
 	for i = 1,15 do
