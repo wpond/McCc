@@ -128,27 +128,7 @@ function gotoY(y)
 	
 end
 
-function goto(x,z)
-	
-	if not gotoY(WORK_DEPTH) then
-		return false
-	end
-	
-	if loc.x < x then
-		face(1)
-		while loc.x < x do
-			if not forward() then
-				return false
-			end
-		end
-	elseif loc.x > x then
-		face(3)
-		while loc.x > x do
-			if not forward() then
-				return false
-			end
-		end
-	end
+function gotoZ(z)
 	
 	if loc.z > z then
 		face(0)
@@ -170,11 +150,70 @@ function goto(x,z)
 	
 end
 
+function gotoX(x)
+	
+	if loc.x < x then
+		face(1)
+		while loc.x < x do
+			if not forward() then
+				return false
+			end
+		end
+	elseif loc.x > x then
+		face(3)
+		while loc.x > x do
+			if not forward() then
+				return false
+			end
+		end
+	end
+	
+	return true
+	
+end
+
+function gotoXZ(x,z)
+	
+	return gotoX(x) and gotoZ(z)
+	
+end
+
+function gotoZX(x,z)
+	
+	return gotoZ(x) and gotoX(z)
+	
+end
+
+function gotoChest(idx)
+	
+	chest = chests[idx]
+	
+	gotoY(origin.y + chest.loc.y)
+	
+	if loc.z == origin.z + chest.loc.z then
+		gotoX(origin.x + chest.loc.x)
+	else
+		gotoX(origin.x)
+		gotoXZ(origin.x + chest.loc.x, origin.z + chest.loc.z)
+	end
+	
+	face(chest.face)
+	
+end
+
 function pickupUnsorted()
 	
-	goto(origin.x + input.loc.x, origin.z + input.loc.z)
 	gotoY(origin.y + input.loc.y)
+	
+	if loc.z == origin.z + input.loc.z then
+		gotoX(origin.x + input.loc.x)
+	else
+		gotoX(input.x)
+		gotoXZ(origin.x + input.loc.x, origin.z + input.loc.z)
+	end
+	
 	face(input.face)
+	
 	turtle.select(1)
 	for i = 1,15 do
 		if not turtle.suck() then
@@ -182,7 +221,14 @@ function pickupUnsorted()
 		end
 	end
 	gotoY(origin.y)
-	goto(origin.x, origin.z)
+	gotoXZ(origin.x, origin.z)
+	
+end
+
+function gotoOrigin()
+	
+	gotoY(origin.y)
+	gotoXZ(origin.x, origin.z)
 	
 end
 
@@ -190,8 +236,7 @@ function returnHome()
 	
 	print("returning home")
 	
-	goto(home.x,home.z)
-	
+	gotoXZ(home.x,home.z)
 	gotoY(home.y)
 	
 	face(homeDir)
@@ -204,8 +249,7 @@ function main()
 	
 	loadChests()
 	
-	gotoY(origin.y)
-	goto(origin.x, origin.z)
+	gotoOrigin()
 	
 	pickupUnsorted()
 	
