@@ -92,6 +92,7 @@ function main()
 					inventory[item] = inventory[item] + count
 				end
 				print(msg)
+				print(item .. ": " .. inventory[item])
 				saveInventory()
 			end
 			
