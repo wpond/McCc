@@ -188,13 +188,15 @@ function gotoChest(idx)
 	
 	local chest = chests[idx]
 	
+	print("goto chest: " ..chest.desc.. "["..idx.."]")
+	
 	gotoY(origin.y + chest.loc.y)
 	
 	if loc.z == origin.z + chest.loc.z then
 		gotoX(origin.x + chest.loc.x)
 	else
 		gotoX(origin.x)
-		gotoXZ(origin.x + chest.loc.x, origin.z + chest.loc.z)
+		gotoZX(origin.x + chest.loc.x, origin.z + chest.loc.z)
 	end
 	
 	face(chest.face)
