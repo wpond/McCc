@@ -255,7 +255,9 @@ function main()
 	gotoOrigin()
 	
 	--pickupUnsorted()
-	gotoChest(1)
+	for i = 1,#chests do
+		gotoChest(i)
+	end
 	
 	returnHome()
 	
