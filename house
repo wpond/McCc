@@ -27,6 +27,31 @@ turtle_cmds =  {
 	base_td = turtle.down
 }
 
+function startsWith(string, start)
+	return string.sub(msg,1,string.len(start)) == start
+end
+
+function split(s,divider,count)
+	pieces = {}
+	pos = 1
+	remaining = s
+	while count > 1 do
+		pos = string.find(remaining,divider)
+		if pos == nil then
+			break
+		end
+		pieces[#pieces+1] = string.sub(remaining,1,pos) .. ""
+		remaining = string.sub(remaining,pos+1) .. ""
+		count = count - 1
+	end
+	
+	if remaining ~= "" then
+		pieces[#pieces+1] = remaining
+	end
+	
+	return pieces
+end
+
 function loadChests()
 	
 	rednet.send(INVENTORY_SERVER, "chests")
@@ -311,14 +336,21 @@ function sort()
 	
 end
 
-function gotoOrigin()
+function gotoFetcherOrigin()
+	
+	gotoY(chestInfo.fetcherOrigin.y)
+	gotoXZ(chestInfo.fetcherOrigin.x, chestInfo.fetcherOrigin.z)
+	
+end
+
+function gotoSorterOrigin()
 	
 	gotoY(chestInfo.sorterOrigin.y)
 	gotoXZ(chestInfo.sorterOrigin.x, chestInfo.sorterOrigin.z)
 	
 end
 
-function returnHome()
+function returnSorterHome()
 	
 	print("returning home")
 	
@@ -329,6 +361,62 @@ function returnHome()
 	face(homeDir)
 	
 	print("home")
+	
+end
+
+function returnFetcherHome()
+	
+	print("returning home")
+	
+	gotoY(home.y)
+	gotoX(chestInfo.fetcherOrigin.x)
+	gotoXZ(home.x,home.z)
+	
+	face(homeDir)
+	
+	print("home")
+	
+end
+
+function fetch(idx, count)
+	
+	gotoChest(idx)
+	
+	for i=1,15 do
+	
+		turtle.select(i)
+		turtle.suck()
+		
+		count = count - turtle.getItemCount(i)
+		
+		if count == 0 then
+			break
+		elseif count < 0 then
+			turtle.transferTo(16,-count)
+			turtle.select(16)
+			turtle.drop()
+			break
+		end
+		
+	end
+	
+	gotoY(chestInfo.fetcherOrigin.y + chestInfo.output.loc.y)
+	
+	if loc.z == chestInfo.fetcherOrigin.z + chestInfo.output.loc.z then
+		gotoX(chestInfo.fetcherOrigin.x + chestInfo.output.loc.x)
+	else
+		gotoX(chestInfo.fetcherOrigin.x)
+		gotoZX(chestInfo.fetcherOrigin.x + chestInfo.output.loc.x, chestInfo.fetcherOrigin.z + chestInfo.output.loc.z)
+	end
+	
+	face(chestInfo.output.face)
+	
+	for i = 1,16 do
+		turtle.select(i)
+		turtle.drop()
+	end
+	
+	gotoFetcherOrigin()
 	
 end
 
@@ -351,24 +439,53 @@ function main(args)
 	
 	loadChests()
 	
-	gotoOrigin()
-	
 	if args[1] == "sort" then
+		
+		gotoSorterOrigin()
 		
 		while true do
 			pickupUnsorted()
 			sort()
 		end
 		
+		returnSorterHome()
+		
 	elseif args[1] == "fetch" then
+		
+		gotoFetcherOrigin()
 		
 		while true do
 			
+			id,msg = rednet.receive()
+			if startsWith(msg,"fetch") then
+				
+				local parts = split(msg," ",3)
+				
+				if #parts == 3 then
+					
+					print(msg)
+					
+					local item = parts[3]
+					local count = tonumer(parts[2])
+					
+					-- find chest
+					for i = 1,#chestInfo.chests do
+						if chestInfo.chests[i].desc == item then
+							
+							fetch(i,count)
+							
+						end
+					end
+					
+				end
+				
+			end
+			
 		end
 		
+		returnFetcherHome()
+		
 	end
-	
-	returnHome()
 	
 	rednet.close("right")
 	
