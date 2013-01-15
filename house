@@ -183,10 +183,10 @@ function gotoChest(idx,side)
 	local targetFace
 	
 	if side == "front" then
-		targetZ = origin.z + chest.loc.z - 1
+		targetZ = chestInfo.origin.z + chest.loc.z - 1
 		targetFace = 2
 	elseif side == "back" then
-		targetZ = origin.z + chest.loc.z + 1
+		targetZ = chestInfo.origin.z + chest.loc.z + 1
 		targetFace = 0
 	else
 		return
