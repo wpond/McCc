@@ -345,12 +345,16 @@ function main(args)
 	
 	if args[1] == "sort" then
 		
-		pickupUnsorted()
-		sort()
+		while true do
+			pickupUnsorted()
+			sort()
+		end
 		
 	elseif args[1] == "fetch" then
 		
-		
+		while true do
+			
+		end
 		
 	end
 	
