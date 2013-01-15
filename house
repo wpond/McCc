@@ -1,6 +1,8 @@
 
 INVENTORY_SERVER = 54
 
+args = { ... }
+
 home = {x=-255,y=69,z=171}
 loc = {x=-255,y=69,z=171}
 dir = 0
@@ -30,18 +32,9 @@ function loadChests()
 	rednet.send(INVENTORY_SERVER, "chests")
 	
 	id,msg = rednet.receive()
-	origin = textutils.unserialize(msg)
+	chestInfo = textutils.unserialize(msg)
 	
-	id,msg = rednet.receive()
-	input = textutils.unserialize(msg)
-	
-	id,msg = rednet.receive()
-	reject = textutils.unserialize(msg)
-	
-	id,msg = rednet.receive()
-	chests = textutils.unserialize(msg)
-	
-	print("Chests loaded: " ..tostring(#chests))
+	print("Chests loaded: " ..tostring(#chestInfo.chests))
 	
 end
 
@@ -65,48 +58,38 @@ function turnRight()
 end
 
 function up()
-
-	if turtle_cmds.base_tu() then
-		loc.y = loc.y + 1
-		return true
-	end
 	
-	return false
+	while not turtle_cmds.base_tu() do end
+	
+	loc.y = loc.y + 1
+	return true
 
 end
 
 function down()
-
-	if turtle_cmds.base_td() then
-		loc.y = loc.y - 1
-		return true
-	end
 	
-	return false
+	while not turtle_cmds.base_td() do end
+	
+	loc.y = loc.y - 1
+	return true
 
 end
 
 function forward()
 	
-	if turtle_cmds.base_tf() then
-		loc.x = loc.x + xDiff[dir+1]
-		loc.z = loc.z + zDiff[dir+1]
-		return true
-	end
-	
-	return false
+	while not turtle_cmds.base_tf() do end
+	loc.x = loc.x + xDiff[dir+1]
+	loc.z = loc.z + zDiff[dir+1]
+	return true
 	
 end
 
 function back()
 	
-	if turtle_cmds.base_tb() then
-		loc.x = loc.x - xDiff[dir+1]
-		loc.z = loc.z - zDiff[dir+1]
-		return true
-	end
-	
-	return false
+	while not turtle_cmds.base_tb() do end
+	loc.x = loc.x - xDiff[dir+1]
+	loc.z = loc.z - zDiff[dir+1]
+	return true
 	
 end
 
@@ -194,7 +177,7 @@ end
 
 function gotoChest(idx,side)
 	
-	local chest = chests[idx]
+	local chest = chestInfo.chests[idx]
 	
 	local targetZ
 	local targetFace
@@ -211,13 +194,13 @@ function gotoChest(idx,side)
 	
 	print("goto chest: " ..chest.desc.. "["..idx.."]")
 	
-	gotoY(origin.y + chest.loc.y)
+	gotoY(chestInfo.sorterOrigin.y + chest.loc.y)
 	
 	if loc.z == targetZ then
-		gotoX(origin.x + chest.loc.x)
+		gotoX(chestInfo.sorterOrigin.x + chest.loc.x)
 	else
-		gotoX(origin.x)
-		gotoZX(origin.x + chest.loc.x, targetZ)
+		gotoX(chestInfo.sorterOrigin.x)
+		gotoZX(chestInfo.sorterOrigin.x + chest.loc.x, targetZ)
 	end
 	
 	face(targetFace)
@@ -226,13 +209,13 @@ end
 
 function pickupUnsorted()
 	
-	gotoY(origin.y + input.loc.y)
+	gotoY(chestInfo.sorterOrigin.y + chestInfo.input.loc.y)
 	
-	if loc.z == origin.z + input.loc.z then
-		gotoX(origin.x + input.loc.x)
+	if loc.z == chestInfo.sorterOrigin.z + chestInfo.input.loc.z then
+		gotoX(chestInfo.sorterOrigin.x + chestInfo.input.loc.x)
 	else
-		gotoX(origin.x)
-		gotoZX(origin.x + input.loc.x, origin.z + input.loc.z)
+		gotoX(chestInfo.sorterOrigin.x)
+		gotoZX(chestInfo.sorterOrigin.x + chestInfo.input.loc.x, chestInfo.sorterOrigin.z + chestInfo.input.loc.z)
 	end
 	
 	face(input.face)
@@ -243,16 +226,16 @@ function pickupUnsorted()
 			break
 		end
 	end
-	gotoY(origin.y)
-	gotoXZ(origin.x, origin.z)
+	gotoY(chestInfo.sorterOrigin.y)
+	gotoXZ(chestInfo.sorterOrigin.x, chestInfo.sorterOrigin.z)
 	
 end
 
 function sort()
 	
-	for i = 1,#chests do
+	for i = 1,#chestInfo.chests do
 		
-		if not chests[i].empty then
+		if not chestInfo.chests[i].empty then
 			
 			gotoChest(i,"back")
 			turtle.select(16)
@@ -277,7 +260,7 @@ function sort()
 			turtle.drop()
 			
 			if count > 0 then
-				rednet.send(INVENTORY_SERVER,"checkin " .. count .. " " .. chests[i].desc)
+				rednet.send(INVENTORY_SERVER,"checkin " .. count .. " " .. chestInfo.chests[i].desc)
 			end
 			
 			if empty then
@@ -288,16 +271,16 @@ function sort()
 		
 	end
 	
-	gotoY(origin.y + reject.loc.y)
+	gotoY(chestInfo.sorterOrigin.y + chestInfo.reject.loc.y)
 	
-	if loc.z == origin.z + reject.loc.z then
-		gotoX(origin.x + reject.loc.x)
+	if loc.z == chestInfo.sorterOrigin.z + chestInfo.reject.loc.z then
+		gotoX(chestInfo.sorterOrigin.x + chestInfo.reject.loc.x)
 	else
-		gotoX(origin.x)
-		gotoZX(origin.x + reject.loc.x, origin.z + reject.loc.z)
+		gotoX(chestInfo.sorterOrigin.x)
+		gotoZX(chestInfo.sorterOrigin.x + chestInfo.reject.loc.x, chestInfo.sorterOrigin.z + chestInfo.reject.loc.z)
 	end
 	
-	face(reject.face)
+	face(chestInfo.reject.face)
 	
 	for i = 1,15 do
 		turtle.select(i)
@@ -308,8 +291,8 @@ end
 
 function gotoOrigin()
 	
-	gotoY(origin.y)
-	gotoXZ(origin.x, origin.z)
+	gotoY(chestInfo.sorterOrigin.y)
+	gotoXZ(chestInfo.sorterOrigin.x, chestInfo.sorterOrigin.z)
 	
 end
 
@@ -318,7 +301,7 @@ function returnHome()
 	print("returning home")
 	
 	gotoY(home.y)
-	gotoX(origin.x)
+	gotoX(chestInfo.sorterOrigin.x)
 	gotoXZ(home.x,home.z)
 	
 	face(homeDir)
@@ -327,7 +310,19 @@ function returnHome()
 	
 end
 
-function main()
+function usage()
+	
+	print("HouseBot v0.1")
+	print("Usage: house <sort | fetch>")
+	
+end
+
+function main(args)
+	
+	if #args ~= 1 then
+		usage()
+		return
+	end
 	
 	rednet.close("right")
 	rednet.open("right")
@@ -345,4 +340,4 @@ function main()
 	
 end
 
-main()
+main(args)
