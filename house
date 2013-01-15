@@ -289,7 +289,7 @@ function sort()
 		count = count + turtle.getItemCount(i)
 	end
 	
-	if count == 0
+	if count == 0 then
 		return
 	end
 	
