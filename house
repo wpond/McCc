@@ -221,11 +221,23 @@ function pickupUnsorted()
 	face(chestInfo.input.face)
 	
 	turtle.select(1)
-	for i = 1,15 do
-		if not turtle.suck() then
-			break
+	
+	-- wait for item to be placed
+	if not turtle.suck() then 
+		while not turtle.suck() do
+			sleep(5)
 		end
 	end
+	
+	-- grab all items
+	while turtle.suck() do end
+	
+	-- make sure comparison slot is clear
+	if turtle.getItemCount(16) > 0 then
+		turtle.select(16)
+		turtle.drop()
+	end
+	
 	gotoY(chestInfo.sorterOrigin.y)
 	gotoXZ(chestInfo.sorterOrigin.x, chestInfo.sorterOrigin.z)
 	
@@ -331,8 +343,16 @@ function main(args)
 	
 	gotoOrigin()
 	
-	pickupUnsorted()
-	sort()
+	if args[1] == "sort" then
+		
+		pickupUnsorted()
+		sort()
+		
+	elseif args[1] == "fetch" then
+		
+		
+		
+	end
 	
 	returnHome()
 	
