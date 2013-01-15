@@ -283,6 +283,16 @@ function sort()
 		
 	end
 	
+	local count = 0
+	
+	for i = 1,16 do
+		count = count + turtle.getItemCount(i)
+	end
+	
+	if count == 0
+		return
+	end
+	
 	gotoY(chestInfo.sorterOrigin.y + chestInfo.reject.loc.y)
 	
 	if loc.z == chestInfo.sorterOrigin.z + chestInfo.reject.loc.z then
@@ -294,7 +304,7 @@ function sort()
 	
 	face(chestInfo.reject.face)
 	
-	for i = 1,15 do
+	for i = 1,16 do
 		turtle.select(i)
 		turtle.drop()
 	end
