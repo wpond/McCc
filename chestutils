@@ -8,7 +8,7 @@ f = fs.open("/disk/chests","w")
 
 chestInfo = {
 	sorterOrigin = { x = -254, y = 70, z = 172 },
-	fetcherOrigin = { x = -254, y = 70, z = 172 },
+	fetcherOrigin = { x = -261, y = 70, z = 172 },
 	input = { loc = { x = 0, y = -2, z = 0 }, face = 0 },
 	output = { loc = { x = 0, y = -2, z = 0 }, face = 0 },
 	reject = { loc = { x = 2, y = -2, z = 0 }, face = 0 },
