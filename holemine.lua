@@ -184,6 +184,7 @@ function main(args)
 			end
 			
 			turnRight()
+			dig()
 			forward()
 			turnRight()
 			
@@ -193,6 +194,7 @@ function main(args)
 			end
 			
 			turnLeft()
+			dig()
 			forward()
 			turnLeft()
 			
